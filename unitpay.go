@@ -1,20 +1,13 @@
 package unitpay
 
-import "strconv"
-
 type Unitpay struct {
+	ProjectId string
 	SecretKey string
-	ProjectId int
 }
 
-func New(secretKey string, projectId string) *Unitpay {
-	id, err := strconv.Atoi(projectId)
-	if err != nil {
-		return nil
-	}
-
+func New(projectId string, secretKey string) *Unitpay {
 	return &Unitpay{
 		SecretKey: secretKey,
-		ProjectId: id,
+		ProjectId: projectId,
 	}
 }
