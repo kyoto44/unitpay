@@ -13,7 +13,7 @@ type Payment struct {
 	paymentType PaymentType
 	account     string
 	sum         int
-	projectId   int
+	projectId   string
 	resultUrl   *string
 	desc        string
 	secretKey   string
@@ -52,7 +52,7 @@ type PaymentCreationResult struct {
 type PaymentResult struct {
 	Method         string
 	UnitpayId      int
-	ProjectId      int
+	ProjectId      string
 	Account        string
 	PayerSum       int
 	PayerCurrency  string
@@ -86,7 +86,7 @@ type PaymentResultResponse struct {
 type PaymentInfoResponse struct {
 	Status        PaymentStatus
 	PaymentId     int
-	ProjectId     int
+	ProjectId     string
 	Account       string
 	Purse         string
 	Profit        int
@@ -101,7 +101,7 @@ type PaymentInfoResponse struct {
 	Message       *string
 }
 
-func CreatePayment(paymentType PaymentType, account string, sum int, projectID int, description string, resultURL *string, secretKey string) *Payment {
+func CreatePayment(paymentType PaymentType, account string, sum int, projectID string, description string, resultURL *string, secretKey string) *Payment {
 	return &Payment{
 		paymentType: paymentType,
 		account:     account,
@@ -162,7 +162,7 @@ func (payment *Payment) SetTestMode(test bool) {
 }
 
 func (payment *Payment) CreateSignature() string {
-	hashString := fmt.Sprintf("%s{up}%s{up}%d{up}%d{up}%s{up}%s", payment.paymentType, payment.account, payment.sum, payment.projectId, payment.desc, payment.secretKey)
+	hashString := fmt.Sprintf("%s{up}%s{up}%d{up}%s{up}%s{up}%s", payment.paymentType, payment.account, payment.sum, payment.projectId, payment.desc, payment.secretKey)
 	hash := sha256.Sum256([]byte(hashString))
 	signature := hex.EncodeToString(hash[:])
 	return signature
@@ -180,7 +180,7 @@ func CreatePaymentURL(payment *Payment) string {
 	paymentUrlParams.Set("params[paymentType]", string(payment.paymentType))
 	paymentUrlParams.Set("params[account]", payment.account)
 	paymentUrlParams.Set("params[sum]", strconv.Itoa(payment.sum))
-	paymentUrlParams.Set("params[projectId]", strconv.Itoa(payment.projectId))
+	paymentUrlParams.Set("params[projectId]", payment.projectId)
 	if payment.resultUrl != nil {
 		paymentUrlParams.Set("params[resultUrl]", *payment.resultUrl)
 	}
