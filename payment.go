@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"net/url"
 	"strconv"
+	"strings"
 	"time"
 )
 
@@ -88,11 +89,25 @@ type PaymentInfoResponse struct {
 	Error  *PaymentInfoResponseError  `json:"error,omitempty"`
 }
 
+type UnitpayTime time.Time
+
+func (j *UnitpayTime) UnmarshalJSON(b []byte) error {
+	s := strings.Trim(string(b), "\"")
+	var (
+		y, d, h, min, sec int
+		m                 time.Month
+	)
+	fmt.Sscanf(s, "%v-%v-%v %v:%v:%v", &y, &m, &d, &h, &min, &sec)
+	t := time.Date(y, m, d, h, min, sec, 0, time.UTC)
+	*j = UnitpayTime(t)
+	return nil
+}
+
 type PaymentInfoResponseResult struct {
 	PaymentId          int           `json:"paymentId"`
 	Status             PaymentStatus `json:"status"`
 	PaymentType        string        `json:"paymentType"`
-	Date               time.Time     `json:"date"`
+	Date               UnitpayTime   `json:"date"`
 	Purse              string        `json:"purse"`
 	Account            string        `json:"account"`
 	Profit             int           `json:"profit"`
