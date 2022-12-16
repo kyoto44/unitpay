@@ -84,21 +84,32 @@ type PaymentResultResponse struct {
 }
 
 type PaymentInfoResponse struct {
-	Status        PaymentStatus
-	PaymentId     int
-	ProjectId     string
-	Account       string
-	Purse         string
-	Profit        int
-	PaymentType   string
-	OrderSum      int
-	OrderCurrency string
-	Date          time.Time
-	PayerSum      int
-	PayerCurrency string
-	RecieptUrl    string
-	ErrorMessage  *string
-	Message       *string
+	Result *PaymentInfoResponseResult `json:"result,omitempty"`
+	Error  *PaymentInfoResponseError  `json:"error,omitempty"`
+}
+
+type PaymentInfoResponseResult struct {
+	PaymentId          int           `json:"paymentId"`
+	Status             PaymentStatus `json:"status"`
+	PaymentType        string        `json:"paymentType"`
+	Date               time.Time     `json:"date"`
+	Purse              string        `json:"purse"`
+	Account            string        `json:"account"`
+	Profit             int           `json:"profit"`
+	ProjectId          string        `json:"projectId"`
+	OrderSum           int           `json:"orderSum"`
+	OrderCurrency      string        `json:"orderCurrency"`
+	PayerSum           int           `json:"payerSum"`
+	PayerCurrency      string        `json:"payerCurrency"`
+	AvailableForRefund string        `json:"availableForRefund"`
+	IsPreauth          string        `json:"isPreauth"`
+	Refunds            []interface{} `json:"refunds"`
+	ReceiptUrl         string        `json:"receiptUrl,omitempty"`
+	ErrorMessage       string        `json:"errorMessage,omitempty"`
+}
+
+type PaymentInfoResponseError struct {
+	Message string `json:"message"`
 }
 
 func CreatePayment(paymentType PaymentType, account string, sum int, projectID string, description string, resultURL *string, secretKey string) *Payment {
