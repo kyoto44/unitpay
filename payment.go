@@ -113,14 +113,14 @@ type PaymentInfoResponseResult struct {
 	Date               UnitpayTime   `json:"date"`
 	Purse              string        `json:"purse"`
 	Account            string        `json:"account"`
-	Profit             int           `json:"profit"`
-	ProjectId          string        `json:"projectId"`
-	OrderSum           int           `json:"orderSum"`
+	Profit             string        `json:"profit"`
+	ProjectId          int           `json:"projectId"`
+	OrderSum           string        `json:"orderSum"`
 	OrderCurrency      string        `json:"orderCurrency"`
-	PayerSum           int           `json:"payerSum"`
+	PayerSum           string        `json:"payerSum"`
 	PayerCurrency      string        `json:"payerCurrency"`
 	AvailableForRefund string        `json:"availableForRefund"`
-	IsPreauth          string        `json:"isPreauth"`
+	IsPreauth          int           `json:"isPreauth"`
 	Refunds            []interface{} `json:"refunds"`
 	ReceiptUrl         string        `json:"receiptUrl,omitempty"`
 	ErrorMessage       string        `json:"errorMessage,omitempty"`
