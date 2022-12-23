@@ -110,7 +110,7 @@ type PaymentInfoResponseResult struct {
 	PaymentId          string        `json:"paymentId"`
 	Status             PaymentStatus `json:"status"`
 	PaymentType        string        `json:"paymentType"`
-	Date               UnitpayTime   `json:"date"`
+	Date               UnitpayTime   `json:"-"`
 	Purse              string        `json:"purse"`
 	Account            string        `json:"account"`
 	Profit             string        `json:"profit"`
